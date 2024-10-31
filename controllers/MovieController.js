@@ -1,4 +1,7 @@
-import movies from '../items.json' assert { type: 'json' }
+import fs from 'fs';
+
+const movies = JSON.parse(fs.readFileSync('./items.json', 'utf8'));
+
 
 export const getMovies = (req, res) => {
 	res.json(movies)
