@@ -1,19 +1,25 @@
 import fs from 'fs';
 
-const movies = JSON.parse(fs.readFileSync('./items.json', 'utf8'));
-
-
 export const getMovies = (req, res) => {
-	res.json(movies)
+	try {
+		const movies = JSON.parse(fs.readFileSync('./items.json', 'utf8'));
+		res.json(movies)
+	} catch (err) {
+		res.status(404).send('Not Found');
+	}
 }
 
 export const getMovieById = (req, res) => {
-	const id = parseInt(req.params.id)
-	const movie = movies.find(movie => movie.id === id)
+	try {
+		const movies = JSON.parse(fs.readFileSync('./items.json', 'utf8'));
+		const id = parseInt(req.params.id)
+		const movie = movies.find(movie => movie.id === id)
+		if (!movie) {
+			return res.status(404).json({ message: 'Фильм не найден' })
+		}
 
-	if (!movie) {
-		return res.status(404).json({ message: 'Фильм не найден' })
+		res.json(movie)
+	} catch (err) {
+		res.status(404).send('Not Found');
 	}
-
-	res.json(movie)
 }
