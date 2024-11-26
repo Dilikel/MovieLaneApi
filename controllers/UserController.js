@@ -27,7 +27,7 @@ export const login = async (req, res) => {
 		sendEmail(
 			user.email,
 			'Успешный вход на MovieLane',
-			`Привет, ${user.name}!\n\nВы успешно вошли в систему\n\nЕсли это были не вы, пожалуйста, свяжитесь с нашей поддержкой немедленно.\n\nПриятного дня!\nКоманда MovieLane\nТехподдержка - movielane@yandex.ru`
+			`Привет, ${user.name}!\n\nВы успешно вошли в систему.\n\nЕсли это были не вы, пожалуйста, свяжитесь с нашей поддержкой немедленно.\n\nПриятного дня!\nКоманда MovieLane\nТехподдержка - movielane@yandex.ru`
 		)
 	} catch (error) {
 		res.status(400).json({ message: 'Ошибка при входе', error: error.message })
