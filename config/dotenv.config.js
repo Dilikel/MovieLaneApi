@@ -7,4 +7,6 @@ export default {
 	mongoUrl: process.env.MONGODB_URL,
 	emailSender: process.env.EMAIL_SENDER,
 	emailPassword: process.env.EMAIL_PASSWORD,
+	port: process.env.PORT,
+	apiPassword: process.env.API_PASSWORD,
 }
