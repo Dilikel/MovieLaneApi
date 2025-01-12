@@ -5,8 +5,6 @@ export const addMovieTime = async (req, res) => {
 		const userId = req.userId
 		const { id, currentTime } = req.body
 
-		console.log('Запрос на добавление времени для фильма:', { id, currentTime })
-
 		const user = await User.findById(userId)
 		if (!user) {
 			console.log('Пользователь не найден')
