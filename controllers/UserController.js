@@ -1,49 +1,75 @@
-import { registerUser, loginUser } from '../services/AuthService.js'
-import { createToken } from '../utils/createToken.js'
 import User from '../models/User.js'
-import { sendEmail } from '../services/SendEmailService.js'
 
-export const register = async (req, res) => {
+export const addMovieTime = async (req, res) => {
 	try {
-		const user = await registerUser(req.body)
-		const token = createToken(user._id)
-		res.json({ token })
-		sendEmail(
-			user.email,
-			'Добро пожаловать в MovieLane',
-			`Добро пожаловать в MovieLane, ${user.name}!\n\nМы рады приветствовать вас в нашем сообществе киноманов! Теперь вы можете наслаждаться лучшими фильмами прямо сейчас на нашем сайте.\n\nПриятного просмотра!\n\nКоманда MovieLane\nТехподдержка - movielane@yandex.ru`
-		)
-	} catch (error) {
-		res
-			.status(500)
-			.json({ message: 'Регистрация не удалась', error: error.message })
-	}
-}
+		const userId = req.userId
+		const { id, currentTime } = req.body
 
-export const login = async (req, res) => {
-	try {
-		const { token, user } = await loginUser(req.body.email, req.body.password)
-		res.json({ token })
-		sendEmail(
-			user.email,
-			'Успешный вход на MovieLane',
-			`Привет, ${user.name}!\n\nВы успешно вошли в систему.\n\nЕсли это были не вы, пожалуйста, свяжитесь с нашей поддержкой немедленно.\n\nПриятного дня!\nКоманда MovieLane\nТехподдержка - movielane@yandex.ru`
-		)
-	} catch (error) {
-		res.status(400).json({ message: 'Ошибка при входе', error: error.message })
-	}
-}
-
-export const getMe = async (req, res) => {
-	try {
-		const user = await User.findById(req.userId).select('-passwordHash')
+		const user = await User.findById(userId)
 		if (!user) {
 			return res.status(404).json({ message: 'Пользователь не найден' })
 		}
-		res.json(user)
+
+		user.movieTimes.push({ id, currentTime })
+		await user.save()
+
+		res.json({
+			message: 'Данные добавлены успешно',
+			movieTimes: user.movieTimes,
+		})
 	} catch (error) {
 		res.status(500).json({
-			message: 'Не удалось получить данные пользователя',
+			message: 'Не удалось обновить данные',
+			error: error.message,
+		})
+	}
+}
+
+export const updateMovieTime = async (req, res) => {
+	try {
+		const userId = req.userId
+		const { id, currentTime } = req.body
+		const user = await User.findById(userId)
+		if (!user) {
+			return res.status(404).json({ message: 'Пользователь не найден' })
+		}
+
+		const movieTime = user.movieTimes.find(movie => movie.id === id)
+		if (!movieTime) {
+			return res.status(404).json({ message: 'Время для фильма не найдено' })
+		}
+
+		movieTime.currentTime = currentTime
+		await user.save()
+
+		res.json({
+			message: 'Время обновлено успешно',
+			movieTimes: user.movieTimes,
+		})
+	} catch (error) {
+		res.status(500).json({
+			message: 'Не удалось обновить данные',
+			error: error.message,
+		})
+	}
+}
+
+export const getMovieTimes = async (req, res) => {
+	try {
+		const userId = req.userId
+
+		const user = await User.findById(userId)
+		if (!user) {
+			return res.status(404).json({ message: 'Пользователь не найден' })
+		}
+
+		res.json({
+			message: 'Данные получены успешно',
+			movieTimes: user.movieTimes,
+		})
+	} catch (error) {
+		res.status(500).json({
+			message: 'Не удалось получить данные',
 			error: error.message,
 		})
 	}

@@ -6,6 +6,12 @@ const userSchema = new mongoose.Schema(
 		age: { type: Number, required: true },
 		email: { type: String, required: true, unique: true },
 		passwordHash: { type: String, required: true },
+		movieTimes: [
+			{
+				id: { type: String, required: true },
+				currentTime: { type: String, required: true },
+			},
+		],
 	},
 	{ timestamps: true }
 )

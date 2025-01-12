@@ -4,7 +4,7 @@ import {
 	loginValidation,
 } from '../validation/authValidation.js'
 import { handleValidationErrors } from '../middlewares/handleValidationErrors.js'
-import { register, login, getMe } from '../controllers/UserController.js'
+import { register, login, getMe } from '../controllers/AuthController.js'
 import CheckAuth from '../middlewares/CheckAuth.js'
 import { checkApiPassword } from '../middlewares/checkApiPassword.js'
 
