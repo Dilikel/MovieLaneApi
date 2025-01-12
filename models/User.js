@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
 		movieTimes: [
 			{
 				id: { type: String, required: true },
-				currentTime: { type: String, required: true },
+				currentTime: { type: Number, required: true },
 			},
 		],
 	},

@@ -5,19 +5,24 @@ export const addMovieTime = async (req, res) => {
 		const userId = req.userId
 		const { id, currentTime } = req.body
 
+		console.log('Запрос на добавление времени для фильма:', { id, currentTime })
+
 		const user = await User.findById(userId)
 		if (!user) {
+			console.log('Пользователь не найден')
 			return res.status(404).json({ message: 'Пользователь не найден' })
 		}
 
 		user.movieTimes.push({ id, currentTime })
 		await user.save()
 
+		console.log('Данные успешно добавлены')
 		res.json({
 			message: 'Данные добавлены успешно',
 			movieTimes: user.movieTimes,
 		})
 	} catch (error) {
+		console.error('Ошибка при добавлении времени:', error)
 		res.status(500).json({
 			message: 'Не удалось обновить данные',
 			error: error.message,
