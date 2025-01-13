@@ -14,7 +14,6 @@ export const addMovieTime = async (req, res) => {
 		user.movieTimes.push({ id, currentTime })
 		await user.save()
 
-		console.log('Данные успешно добавлены')
 		res.json({
 			message: 'Данные добавлены успешно',
 			movieTimes: user.movieTimes,
