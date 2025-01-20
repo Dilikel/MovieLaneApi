@@ -11,6 +11,8 @@ export const getMovies = (req, res) => {
 			)
 			if (matchingMovies.length > 0) {
 				return res.json(matchingMovies)
+			} else {
+				return res.status(204).json({ message: 'Фильмы не найдены' })
 			}
 		}
 		res.json(movies)
