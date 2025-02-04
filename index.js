@@ -10,11 +10,23 @@ const PORT = process.env.PORT || 8000
 
 connectDB()
 
-app.use(cors(), express.json())
+const corsOptions = {
+	origin: [
+		'http://localhost:3000',
+		'https://movie-lane.vercel.app/',
+		'http://localhost:5173',
+	],
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+	allowedHeaders: '*',
+	preflightContinue: false,
+}
+
+app.use(cors(corsOptions))
+app.use(express.json())
 app.use(authRoutes)
 app.use('/user', userRoutes)
 app.use('/movie', movieRoutes)
 
 app.listen(PORT, () => {
-	console.log(`Сервер запущен`)
+	console.log(`Сервер запущен на порту ${PORT}`)
 })
