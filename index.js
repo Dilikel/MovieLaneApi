@@ -15,6 +15,7 @@ const corsOptions = {
 		'http://localhost:3000',
 		'https://movie-lane.vercel.app/',
 		'http://localhost:5173',
+		'https://movie-lane-nuxt.vercel.app/',
 	],
 	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 	allowedHeaders: '*',
