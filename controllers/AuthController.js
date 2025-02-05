@@ -9,10 +9,11 @@ export const register = async (req, res) => {
 		const token = createToken(user._id)
 		const { passwordHash, ...userWithoutPassword } = user._doc
 		res.json({ token, user: userWithoutPassword })
-		sendEmail(
-			user.email,
-			'Добро пожаловать в MovieLane',
-			`Добро пожаловать в MovieLane, ${user.name}!
+		try {
+			sendEmail(
+				user.email,
+				'Добро пожаловать в MovieLane',
+				`Добро пожаловать в MovieLane, ${user.name}!
 
 Мы рады приветствовать вас в нашем сообществе киноманов! Теперь вы можете наслаждаться лучшими фильмами прямо сейчас на нашем сайте.
 
@@ -20,7 +21,10 @@ export const register = async (req, res) => {
 
 Команда MovieLane
 Техподдержка - movielane@yandex.ru`
-		)
+			)
+		} catch (error) {
+			console.error('Ошибка при отправке письма:', error)
+		}
 	} catch (error) {
 		res
 			.status(500)
@@ -33,10 +37,11 @@ export const login = async (req, res) => {
 		const { token, user } = await loginUser(req.body.email, req.body.password)
 		const { passwordHash, ...userWithoutPassword } = user._doc
 		res.json({ token, user: userWithoutPassword })
-		sendEmail(
-			user.email,
-			'Успешный вход на MovieLane',
-			`Привет, ${user.name}!
+		try {
+			sendEmail(
+				user.email,
+				'Успешный вход на MovieLane',
+				`Привет, ${user.name}!
 
 Вы успешно вошли в систему.
 
@@ -45,7 +50,10 @@ export const login = async (req, res) => {
 Приятного дня!
 Команда MovieLane
 Техподдержка - movielane@yandex.ru`
-		)
+			)
+		} catch (error) {
+			console.error('Ошибка при отправке письма:', error)
+		}
 	} catch (error) {
 		res.status(400).json({ message: 'Ошибка при входе', error: error.message })
 	}
