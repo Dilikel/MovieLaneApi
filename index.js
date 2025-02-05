@@ -9,20 +9,7 @@ const app = express()
 const PORT = process.env.PORT || 8000
 
 connectDB()
-
-const corsOptions = {
-	origin: [
-		'http://localhost:3000',
-		'https://movie-lane.vercel.app/',
-		'http://localhost:5173',
-		'https://movie-lane-nuxt.vercel.app/',
-	],
-	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-	allowedHeaders: '*',
-	preflightContinue: false,
-}
-
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json())
 app.use(authRoutes)
 app.use('/user', userRoutes)
