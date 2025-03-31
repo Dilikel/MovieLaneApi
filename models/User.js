@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema(
 		name: { type: String, required: true },
 		age: { type: Number, required: true },
 		email: { type: String, required: true, unique: true },
+		isSubscribed: { type: Boolean, default: false },
 		passwordHash: { type: String, required: true },
 		movieTimes: [
 			{
