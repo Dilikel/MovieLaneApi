@@ -24,6 +24,6 @@ router.post(
 	handleValidationErrors,
 	register
 )
-router.get('/auth', CheckAuth, getMe)
+router.get('/me', CheckAuth, getMe)
 
 export default router

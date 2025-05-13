@@ -11,9 +11,9 @@ const PORT = process.env.PORT || 8000
 connectDB()
 app.use(cors())
 app.use(express.json())
-app.use(authRoutes)
-app.use('/user', userRoutes)
-app.use('/movie', movieRoutes)
+app.use('/v1/auth', authRoutes)
+app.use('/v1/user', userRoutes)
+app.use('/v1/movie', movieRoutes)
 
 app.listen(PORT, () => {
 	console.log(`Сервер запущен на порту ${PORT}`)
