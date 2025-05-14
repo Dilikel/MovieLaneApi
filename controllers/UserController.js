@@ -2,10 +2,9 @@ import User from '../models/User.js'
 
 export const addMovieTime = async (req, res) => {
 	try {
-		const userId = req.userId
 		const { id, currentTime } = req.body
 
-		const user = await User.findById(userId)
+		const user = await User.findById(req.userId)
 		if (!user) {
 			console.log('Пользователь не найден')
 			return res.status(404).json({ message: 'Пользователь не найден' })
@@ -29,9 +28,8 @@ export const addMovieTime = async (req, res) => {
 
 export const updateMovieTime = async (req, res) => {
 	try {
-		const userId = req.userId
 		const { id, currentTime } = req.body
-		const user = await User.findById(userId)
+		const user = await User.findById(req.userId)
 		if (!user) {
 			return res.status(404).json({ message: 'Пользователь не найден' })
 		}
@@ -58,9 +56,7 @@ export const updateMovieTime = async (req, res) => {
 
 export const getMovieTimes = async (req, res) => {
 	try {
-		const userId = req.userId
-
-		const user = await User.findById(userId)
+		const user = await User.findById(req.userId)
 		if (!user) {
 			return res.status(404).json({ message: 'Пользователь не найден' })
 		}
