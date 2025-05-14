@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: movielane-api
+    ports:
+      - '8000:8000'
+    environment:
+      - NODE_ENV=development
+      - MONGODB_URL=mongodb://mongo:27017/movielane
+    depends_on:
+      - mongo
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    networks:
+      - movielane-network
+
+  mongo:
+    image: mongo:6.0
+    container_name: movielane-mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=movielane
+    networks:
+      - movielane-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  movielane-network:
+    driver: bridge
